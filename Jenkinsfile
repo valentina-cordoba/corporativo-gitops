@@ -2,11 +2,11 @@ pipeline {
 	agent any
 
 	stages {
-	 stage('1. Auditoria de Codigo (Linting') {
+	 stage('1. Auditoria de Codigo (Linting)') {
 		steps {
 		  echo 'Validando sintaxis de Terraform y Ansible ...'
 		  dir('terraform') { sh 'terraform validate'}
-                  dir('ansible') { sh 'ansible-palybook --syntax-check playbook.yml' }
+                  dir('ansible') { sh 'ansible-playbook --syntax-check playbook.yml' }
                 }
          }
 
@@ -21,12 +21,12 @@ pipeline {
          
          stage('3. Aprobacion Manual (Gatekeeper)') {
                 steps {
-                  input message: 'El terraform plan se ve correcto? Aprobar Infraestructura?', ok: Aprobar y Despliegue'
+                  input message: 'El terraform plan se ve correcto? Aprobar Infraestructura?', ok: 'Aprobar y Despliegue'
 		}
          }
 
 
-         stage('4. Aprovisionamiento (Terraform Appy)') {
+         stage('4. Aprovisionamiento (Terraform Apply)') {
                 steps {
                   dir('terraform') { sh 'terraform apply -auto-approve' }
                 }
